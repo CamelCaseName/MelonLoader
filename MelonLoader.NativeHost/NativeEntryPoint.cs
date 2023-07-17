@@ -61,6 +61,7 @@ namespace MelonLoader.NativeHost
             {
                 Console.WriteLine("[NewEntryPoint] Caught exception invoking PreStart! " + ex);
                 Thread.Sleep(5000);
+                MelonLogger.Flush();
                 Environment.Exit(1);
             }
         }
