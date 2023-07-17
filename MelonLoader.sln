@@ -61,6 +61,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Preload", "Dependencies\Sup
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EOS", "Dependencies\CompatibilityLayers\EOS\EOS.csproj", "{DB9D4AFC-E266-42C8-909A-21C14EEB8A5B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Il2CppInterop.Common", "..\Il2CppInterop\Il2CppInterop.Common\Il2CppInterop.Common.csproj", "{45D6E5BC-AE33-4139-9EE8-0A8EC6889AAF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Il2CppInterop.Generator", "..\Il2CppInterop\Il2CppInterop.Generator\Il2CppInterop.Generator.csproj", "{36A9C811-9195-4FFB-9448-4E349F552E71}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -215,6 +219,30 @@ Global
 		{DB9D4AFC-E266-42C8-909A-21C14EEB8A5B}.Release|Windows - x64.Build.0 = Release|Any CPU
 		{DB9D4AFC-E266-42C8-909A-21C14EEB8A5B}.Release|Windows - x86.ActiveCfg = Release|Any CPU
 		{DB9D4AFC-E266-42C8-909A-21C14EEB8A5B}.Release|Windows - x86.Build.0 = Release|Any CPU
+		{45D6E5BC-AE33-4139-9EE8-0A8EC6889AAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45D6E5BC-AE33-4139-9EE8-0A8EC6889AAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45D6E5BC-AE33-4139-9EE8-0A8EC6889AAF}.Debug|Windows - x64.ActiveCfg = Debug|Any CPU
+		{45D6E5BC-AE33-4139-9EE8-0A8EC6889AAF}.Debug|Windows - x64.Build.0 = Debug|Any CPU
+		{45D6E5BC-AE33-4139-9EE8-0A8EC6889AAF}.Debug|Windows - x86.ActiveCfg = Debug|Any CPU
+		{45D6E5BC-AE33-4139-9EE8-0A8EC6889AAF}.Debug|Windows - x86.Build.0 = Debug|Any CPU
+		{45D6E5BC-AE33-4139-9EE8-0A8EC6889AAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45D6E5BC-AE33-4139-9EE8-0A8EC6889AAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45D6E5BC-AE33-4139-9EE8-0A8EC6889AAF}.Release|Windows - x64.ActiveCfg = Release|Any CPU
+		{45D6E5BC-AE33-4139-9EE8-0A8EC6889AAF}.Release|Windows - x64.Build.0 = Release|Any CPU
+		{45D6E5BC-AE33-4139-9EE8-0A8EC6889AAF}.Release|Windows - x86.ActiveCfg = Release|Any CPU
+		{45D6E5BC-AE33-4139-9EE8-0A8EC6889AAF}.Release|Windows - x86.Build.0 = Release|Any CPU
+		{36A9C811-9195-4FFB-9448-4E349F552E71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36A9C811-9195-4FFB-9448-4E349F552E71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36A9C811-9195-4FFB-9448-4E349F552E71}.Debug|Windows - x64.ActiveCfg = Debug|Any CPU
+		{36A9C811-9195-4FFB-9448-4E349F552E71}.Debug|Windows - x64.Build.0 = Debug|Any CPU
+		{36A9C811-9195-4FFB-9448-4E349F552E71}.Debug|Windows - x86.ActiveCfg = Debug|Any CPU
+		{36A9C811-9195-4FFB-9448-4E349F552E71}.Debug|Windows - x86.Build.0 = Debug|Any CPU
+		{36A9C811-9195-4FFB-9448-4E349F552E71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36A9C811-9195-4FFB-9448-4E349F552E71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36A9C811-9195-4FFB-9448-4E349F552E71}.Release|Windows - x64.ActiveCfg = Release|Any CPU
+		{36A9C811-9195-4FFB-9448-4E349F552E71}.Release|Windows - x64.Build.0 = Release|Any CPU
+		{36A9C811-9195-4FFB-9448-4E349F552E71}.Release|Windows - x86.ActiveCfg = Release|Any CPU
+		{36A9C811-9195-4FFB-9448-4E349F552E71}.Release|Windows - x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
