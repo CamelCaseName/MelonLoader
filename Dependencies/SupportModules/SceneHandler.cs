@@ -1,12 +1,46 @@
 ﻿using System;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using Il2CppInterop.Runtime;
+using System.Runtime.InteropServices;
 #if SM_Il2Cpp
 using UnityEngine.Events;
 #endif
 
 namespace MelonLoader.Support
 {
+    public static class SceneSupport
+    {
+        public static string GetName(this Scene scene)
+        {
+#if SM_Il2Cpp
+            var nativeSceneClass = Il2CppClassPointerStore.GetNativeClassPointer(typeof(Scene));
+            if (nativeSceneClass == IntPtr.Zero)
+            {
+                MelonDebug.Error("scene.get_Name is missing and the workaround failed (class pointer was zero)");
+                return "scene names stripped";
+            }
+            var nativeField = IL2CPP.il2cpp_class_get_field_from_name(nativeSceneClass, "<name>k__BackingField");
+            if (nativeField == IntPtr.Zero)
+            {
+                MelonDebug.Error("scene.get_Name is missing and the workaround failed (field pointer for <name>k__BackingField was zero)");
+                return "scene names stripped";
+            }
+            var nativeNameString = IL2CPP.il2cpp_field_get_value_object(nativeField, (IntPtr)scene.handle);
+            if (nativeField == IntPtr.Zero)
+            {
+                MelonDebug.Error("scene.get_Name is missing and the workaround failed (string pointer was zero)");
+                return "scene names stripped";
+            }
+            var name = Marshal.PtrToStringAnsi(nativeNameString);
+            if (!string.IsNullOrEmpty(name)) return name;
+            throw new MissingMethodException("scene.get_Name is missing and the workaround failed");
+#else
+            return scene.name;
+#endif
+        }
+    }
+
     internal static class SceneHandler
     {
         internal class SceneInitEvent
@@ -23,9 +57,11 @@ namespace MelonLoader.Support
             try
             {
 #if SM_Il2Cpp
+                var a = new Action<Scene, LoadSceneMode>(OnSceneLoad);
+                var d = DelegateSupport.ConvertDelegate<UnityAction<Scene, LoadSceneMode>>(a);
                 SceneManager.sceneLoaded = (
-                    (ReferenceEquals(SceneManager.sceneLoaded, null))
-                    ? new Action<Scene, LoadSceneMode>(OnSceneLoad)
+                    ReferenceEquals(SceneManager.sceneLoaded, null)
+                    ? d
                     : Il2CppSystem.Delegate.Combine(SceneManager.sceneLoaded, (UnityAction<Scene, LoadSceneMode>)new Action<Scene, LoadSceneMode>(OnSceneLoad)).Cast<UnityAction<Scene, LoadSceneMode>>()
                     );
 #else
@@ -33,12 +69,13 @@ namespace MelonLoader.Support
 #endif
             }
             catch (Exception ex) { MelonLogger.Error($"SceneManager.sceneLoaded override failed: {ex}"); }
+            MelonDebug.Msg("[Il2Cpp SupportModule] SceneManager.sceneLoaded hooked or initialized");
 
             try
             {
 #if SM_Il2Cpp
                 SceneManager.sceneUnloaded = (
-                    (ReferenceEquals(SceneManager.sceneUnloaded, null))
+                    ReferenceEquals(SceneManager.sceneUnloaded, null)
                     ? new Action<Scene>(OnSceneUnload)
                     : Il2CppSystem.Delegate.Combine(SceneManager.sceneUnloaded, (UnityAction<Scene>)new Action<Scene>(OnSceneUnload)).Cast<UnityAction<Scene>>()
                     );
@@ -47,6 +84,7 @@ namespace MelonLoader.Support
 #endif
             }
             catch (Exception ex) { MelonLogger.Error($"SceneManager.sceneUnloaded override failed: {ex}"); }
+            MelonDebug.Msg("[Il2Cpp SupportModule] SceneManager.sceneUnloaded hooked or initialized");
         }
 
         private static void OnSceneLoad(Scene scene, LoadSceneMode mode)
@@ -57,8 +95,10 @@ namespace MelonLoader.Support
             if (ReferenceEquals(scene, null))
                 return;
 
-            Main.Interface.OnSceneWasLoaded(scene.buildIndex, scene.name);
-            scenesLoaded.Enqueue(new SceneInitEvent { buildIndex = scene.buildIndex, name = scene.name });
+            MelonDebug.Msg("scene loaded as " + mode.ToString());
+
+            Main.Interface.OnSceneWasLoaded(scene.buildIndex, scene.GetName());
+            scenesLoaded.Enqueue(new SceneInitEvent { buildIndex = scene.buildIndex, name = scene.GetName() });
         }
 
         private static void OnSceneUnload(Scene scene)
@@ -66,7 +106,8 @@ namespace MelonLoader.Support
             if (ReferenceEquals(scene, null))
                 return;
 
-            Main.Interface.OnSceneWasUnloaded(scene.buildIndex, scene.name);
+            MelonDebug.Msg("scene unloaded");
+            Main.Interface.OnSceneWasUnloaded(scene.buildIndex, scene.GetName());
         }
 
         internal static void OnUpdate()

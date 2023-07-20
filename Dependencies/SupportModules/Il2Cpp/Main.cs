@@ -1,14 +1,14 @@
-﻿using Il2CppInterop.HarmonySupport;
+﻿using Il2CppInterop.Common;
+using Il2CppInterop.HarmonySupport;
 using Il2CppInterop.Runtime.Injection;
 using Il2CppInterop.Runtime.Startup;
+using MelonLoader.CoreClrUtils;
 using MelonLoader.Support.Preferences;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using MelonLoader.CoreClrUtils;
 using UnityEngine;
-using Il2CppInterop.Common;
-using Microsoft.Extensions.Logging;
 
 namespace MelonLoader.Support
 {
