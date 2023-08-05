@@ -11,30 +11,38 @@ namespace MelonLoader.Support
 {
     public static class SceneSupport
     {
-        public static string GetName(this Scene scene)
+        public static unsafe string GetName(this Scene scene)
         {
 #if SM_Il2Cpp
             var nativeSceneClass = Il2CppClassPointerStore.GetNativeClassPointer(typeof(Scene));
             if (nativeSceneClass == IntPtr.Zero)
             {
-                MelonDebug.Error("scene.get_Name is missing and the workaround failed (class pointer was zero)");
+                MelonDebug.Error("scene.get_name is missing and the workaround failed (class pointer was zero)");
                 return "scene names stripped";
             }
-            var nativeField = IL2CPP.il2cpp_class_get_field_from_name(nativeSceneClass, "<name>k__BackingField");
-            if (nativeField == IntPtr.Zero)
+            var nativeMethod = IL2CPP.il2cpp_class_get_method_from_name(nativeSceneClass, "get_name", 0);
+            if (nativeMethod == IntPtr.Zero)
             {
-                MelonDebug.Error("scene.get_Name is missing and the workaround failed (field pointer for <name>k__BackingField was zero)");
+                MelonDebug.Error("scene.get_name is missing and the workaround failed, all workarounds failed (method pointer for Scene.get_name() was zero)");
                 return "scene names stripped";
             }
-            var nativeNameString = IL2CPP.il2cpp_field_get_value_object(nativeField, (IntPtr)scene.handle);
-            if (nativeField == IntPtr.Zero)
+            IntPtr* ptr = null;
+            IntPtr error = IntPtr.Zero;
+            var sceneHandle = GCHandle.Alloc(scene.handle, GCHandleType.Pinned);
+            if (sceneHandle.AddrOfPinnedObject() == IntPtr.Zero)
             {
-                MelonDebug.Error("scene.get_Name is missing and the workaround failed (string pointer was zero)");
+                MelonDebug.Error("scene couldn't be pinned");
                 return "scene names stripped";
             }
-            var name = Marshal.PtrToStringAnsi(nativeNameString);
-            if (!string.IsNullOrEmpty(name)) return name;
-            throw new MissingMethodException("scene.get_Name is missing and the workaround failed");
+            var nativeResult = IL2CPP.il2cpp_runtime_invoke(nativeMethod, sceneHandle.AddrOfPinnedObject(), (void**)ptr, ref error);
+            sceneHandle.Free();
+            if (nativeResult == IntPtr.Zero)
+            {
+                MelonDebug.Error("il2cpp_runtime_invoke on the native Scene.get_name failed (result pointer was zero)");
+                return "scene names stripped";
+            }
+            Il2CppException.RaiseExceptionIfNecessary(error);
+            return IL2CPP.Il2CppStringToManaged(nativeResult);
 #else
             return scene.name;
 #endif
@@ -95,10 +103,12 @@ namespace MelonLoader.Support
             if (ReferenceEquals(scene, null))
                 return;
 
-            MelonDebug.Msg("scene loaded as " + mode.ToString());
+            string name = scene.GetName();
 
-            Main.Interface.OnSceneWasLoaded(scene.buildIndex, scene.GetName());
-            scenesLoaded.Enqueue(new SceneInitEvent { buildIndex = scene.buildIndex, name = scene.GetName() });
+            MelonDebug.Msg("scene " + name + " loaded as " + mode.ToString());
+
+            Main.Interface.OnSceneWasLoaded(scene.buildIndex, name);
+            scenesLoaded.Enqueue(new SceneInitEvent { buildIndex = scene.buildIndex, name = name });
         }
 
         private static void OnSceneUnload(Scene scene)
