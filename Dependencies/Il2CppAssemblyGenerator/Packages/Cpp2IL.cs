@@ -12,10 +12,12 @@ namespace MelonLoader.Il2CppAssemblyGenerator.Packages
         internal Cpp2IL()
         {
             Version = MelonLaunchOptions.Il2CppAssemblyGenerator.ForceVersion_Dumper;
+            /*
 #if !DEBUG
             if (string.IsNullOrEmpty(Version) || Version.Equals("0.0.0.0"))
                 Version = RemoteAPI.Info.ForceDumperVersion;
 #endif
+            */
             if (string.IsNullOrEmpty(Version) || Version.Equals("0.0.0.0"))
                 Version = "2022.1.0-pre-release.10";
 
