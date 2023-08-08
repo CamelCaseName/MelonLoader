@@ -19,7 +19,7 @@ namespace MelonLoader.Il2CppAssemblyGenerator.Packages
 #endif
             */
             if (string.IsNullOrEmpty(Version) || Version.Equals("0.0.0.0"))
-                Version = "2022.1.0-pre-release.10";
+                Version = "2022.1.0-pre-release.12";
 
             Name = nameof(Cpp2IL);
             Destination = Path.Combine(Core.BasePath, Name);
