@@ -65,8 +65,6 @@ namespace MelonLoader.Support
             try
             {
 #if SM_Il2Cpp
-                var a = new Action<Scene, LoadSceneMode>(OnSceneLoad);
-                var d = DelegateSupport.ConvertDelegate<UnityAction<Scene, LoadSceneMode>>(a);
                 SceneManager.sceneLoaded = (
                     ReferenceEquals(SceneManager.sceneLoaded, null)
                     ? new Action<Scene, LoadSceneMode>(OnSceneLoad)
